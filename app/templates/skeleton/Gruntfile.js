@@ -40,7 +40,19 @@ module.exports = function (grunt) {
     connect: {
       main: {
         options: {
-          port: 9001
+          port: 9001,
+          middleware: function (connect) {
+            var modRewrite = require('connect-modrewrite');
+            return [
+              modRewrite(['^[^\\.]*$ /index.html [L]']),
+              connect.static('.tmp'),
+              connect().use(
+                '/bower_components',
+                connect.static('./bower_components')
+              ),
+              connect.static('.')
+            ];
+          }
         }
       }
     },
@@ -164,7 +176,7 @@ module.exports = function (grunt) {
         }
       }
     },
-    //Imagemin has issues on Windows.  
+    //Imagemin has issues on Windows.
     //To enable imagemin:
     // - "npm install grunt-contrib-imagemin"
     // - Comment in this section
