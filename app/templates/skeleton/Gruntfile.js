@@ -45,11 +45,6 @@ module.exports = function (grunt) {
             var modRewrite = require('connect-modrewrite');
             return [
               modRewrite(['^[^\\.]*$ /index.html [L]']),
-              connect.static('.tmp'),
-              connect().use(
-                '/bower_components',
-                connect.static('./bower_components')
-              ),
               connect.static('.')
             ];
           }
